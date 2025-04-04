@@ -1,0 +1,61 @@
+services:
+  mysql:
+    restart: unless-stopped
+    image: mysql:8.0
+    hostname: mysql
+    volumes:
+      - semaphore-mysql:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: semaphore
+      MYSQL_USER: semaphore
+      MYSQL_PASSWORD_FILE: /run/secrets/semaphore_mysql_password
+    secrets:
+      - semaphore_mysql_password
+  semaphore:
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    image: semaphoreui/semaphore:latest
+    environment:
+      SEMAPHORE_DB_USER: semaphore
+      SEMAPHORE_DB_PASS_FILE: /run/secrets/semaphore_mysql_password
+      SEMAPHORE_DB_HOST: mysql
+      SEMAPHORE_DB_PORT: 3306
+      SEMAPHORE_DB_DIALECT: mysql
+      SEMAPHORE_DB: semaphore
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ADMIN_PASSWORD_FILE: /run/secrets/semaphore_admin_password
+      SEMAPHORE_ADMIN_NAME: admin
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      SEMAPHORE_ADMIN: admin
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION_FILE: /run/secrets/semaphore_access_key_encryption
+      SEMAPHORE_LDAP_ACTIVATED: 'yes'
+      SEMAPHORE_LDAP_HOST: "${LDAP_SERVER}"
+      SEMAPHORE_LDAP_PORT: "${LDAP_PORT}"
+      SEMAPHORE_LDAP_NEEDTLS: "${LDAP_TLS}"
+      SEMAPHORE_LDAP_DN_BIND: "${LDAP_DN_BIND}"
+      SEMAPHORE_LDAP_PASSWORD_FILE: /run/secrets/ldap_password
+      SEMAPHORE_LDAP_DN_SEARCH: "${LDAP_DN_SEARCH}"
+      SEMAPHORE_LDAP_SEARCH_FILTER: "(&(sAMAccountName=%s)(memberOf=${LDAP_SEARCH_FILTER}))"
+      SEMAPHORE_LDAP_MAPPING_UID: 'sAMAccountName'
+      TZ: UTC+1
+    depends_on:
+      - mysql
+    secrets:
+      - semaphore_mysql_password
+      - semaphore_admin_password
+      - semaphore_access_key_encryption
+      - ldap_password
+volumes:
+  semaphore-mysql:
+
+secrets:
+  semaphore_mysql_password:
+    file: ../secrets/semaphore_mysql_password.txt
+  semaphore_admin_password:
+    file: ../secrets/semaphore_admin_password.txt
+  semaphore_access_key_encryption:
+    file: ../secrets/semaphore_access_key_encryption.txt
+  ldap_password:
+    file: ../secrets/ldap_password.txt
