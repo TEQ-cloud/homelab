@@ -52,10 +52,10 @@ volumes:
 
 secrets:
   semaphore_mysql_password:
-    file: ../secrets/semaphore_mysql_password.txt
+    file: /data/docker-compose/secrets/semaphore_mysql_password.txt
   semaphore_admin_password:
-    file: ../secrets/semaphore_admin_password.txt
+    file: /data/docker-compose/secrets/semaphore_admin_password.txt
   semaphore_access_key_encryption:
-    file: ../secrets/semaphore_access_key_encryption.txt
+    file: /data/docker-compose/secrets/semaphore_access_key_encryption.txt
   ldap_password:
-    file: ../secrets/ldap_password.txt
+    file: /data/docker-compose/secrets/ldap_password.txt
