@@ -3,7 +3,7 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: laydia.teqcloud.net:7000
+      HOMEPAGE_ALLOWED_HOSTS: ${ALLOWED_HOST}
     ports:
       - 7000:3000
     volumes:
