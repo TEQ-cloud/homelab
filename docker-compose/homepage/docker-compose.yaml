@@ -2,8 +2,10 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: laydia.teqcloud.net:7000
     ports:
-      - 3000:3000
+      - 7000:3000
     volumes:
       - /data/docker-compose/homepage:/app/config
     restart: unless-stopped
