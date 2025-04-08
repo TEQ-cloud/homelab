@@ -1,0 +1,9 @@
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    ports:
+      - 7000:3000
+    volumes:
+      - /data/docker-compose/homepage:/app/config
+    restart: unless-stopped
