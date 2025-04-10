@@ -30,15 +30,18 @@ services:
       SEMAPHORE_ADMIN_EMAIL: admin@localhost
       SEMAPHORE_ADMIN: admin
       SEMAPHORE_ACCESS_KEY_ENCRYPTION_FILE: /run/secrets/semaphore_access_key_encryption
-      SEMAPHORE_LDAP_ACTIVATED: 'no'
+      SEMAPHORE_LDAP_ACTIVATED: 'yes'
       SEMAPHORE_LDAP_HOST: "${LDAP_SERVER}"
       SEMAPHORE_LDAP_PORT: "${LDAP_PORT}"
       SEMAPHORE_LDAP_NEEDTLS: "${LDAP_TLS}"
       SEMAPHORE_LDAP_DN_BIND: "${LDAP_DN_BIND}"
       SEMAPHORE_LDAP_PASSWORD_FILE: /run/secrets/ldap_password
       SEMAPHORE_LDAP_DN_SEARCH: "${LDAP_DN_SEARCH}"
-      SEMAPHORE_LDAP_SEARCH_FILTER: "(&(uid=%s)(memberOf=${LDAP_SEARCH_FILTER}))"
+      SEMAPHORE_LDAP_SEARCH_FILTER: "(&(sAMAccountName=%s)(memberOf=${LDAP_SEARCH_FILTER}))"
+      SEMAPHORE_LDAP_MAPPING_MAIL: 'mail'
       SEMAPHORE_LDAP_MAPPING_UID: 'sAMAccountName'
+      SEMAPHORE_LDAP_MAPPING_DN: 'dn'
+      SEMAPHORE_LDAP_MAPPING_CN: 'cn'
       TZ: UTC+1
     depends_on:
       - mysql
