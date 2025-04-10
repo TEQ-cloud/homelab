@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
     ports:
       - 3000:3000
-    image: semaphoreui/semaphore:2.9.112
+    image: semaphoreui/semaphore:v2.9.112
     environment:
       SEMAPHORE_DB_USER: semaphore
       SEMAPHORE_DB_PASS_FILE: /run/secrets/semaphore_mysql_password
