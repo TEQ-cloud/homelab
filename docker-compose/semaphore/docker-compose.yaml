@@ -37,7 +37,7 @@ services:
       SEMAPHORE_LDAP_DN_BIND: "${LDAP_DN_BIND}"
       SEMAPHORE_LDAP_PASSWORD_FILE: /run/secrets/ldap_password
       SEMAPHORE_LDAP_DN_SEARCH: "${LDAP_DN_SEARCH}"
-      SEMAPHORE_LDAP_SEARCH_FILTER: "(&(sAMAccountName=%s)(memberOf=${LDAP_SEARCH_FILTER}))"
+      SEMAPHORE_LDAP_SEARCH_FILTER: "(&(objectClass=inetOrgPerson)(uid=%s))"
       SEMAPHORE_LDAP_MAPPING_UID: 'sAMAccountName'
       TZ: UTC+1
     depends_on:
