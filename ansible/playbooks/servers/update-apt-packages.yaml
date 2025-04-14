@@ -1,4 +1,4 @@
-- hosts: "{{ hosts }}"
+- hosts: deb
 
   become: yes
   tasks:
@@ -15,11 +15,10 @@
       register: reboot_required
 
     - name: Send ntfy message
-      uri:
-        url: "https://laydia.teqcloud.net/updates"
-        method: POST
-        body: '{"content": "Reboot required on {{ inventory_hostname }}"}'
+      ntfy:
+        msg: "Reboot required on {{ inventory_hostname }} to complete the update"
+        topic: "updates"
         attrs:
-          tags: [ heavy_check_mark ]
+          tags: [ warning ]
           priority: 3
       when: reboot_required.stat.exists
