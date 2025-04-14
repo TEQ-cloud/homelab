@@ -14,7 +14,7 @@
         path: /var/run/reboot-required
       register: reboot_required
 
-    - name: Send ntfy message
+    - name: Send ntfy.sh update
       uri:
         url: "http://laydia/updates"
         method: POST
