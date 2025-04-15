@@ -14,9 +14,12 @@
         path: /var/run/reboot-required
       register: reboot_required
 
-    - name: Send ntfy.sh update
-      uri:
-        url: "http://laydia/updates"
-        method: POST
-        body: "Reboot required on {{ inventory_hostname }} to complete the update"
+    - name: Send ntfy message
+      ntfy:
+        msg: "Reboot required on {{ inventory_hostname }} to complete the update"
+        topic: "updates"
+        attrs:
+          host: http://laydia.teqcloud.net
+          tags: [ warning ]
+          priority: 3
       when: reboot_required.stat.exists
