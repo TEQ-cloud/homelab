@@ -15,8 +15,11 @@
       register: reboot_required
 
     - name: Send ntfy message
-      uri:
-        url: "http://laydia.teqcloud.net/updates"
-        method: POST
-        body: "Reboot required on {{ inventory_hostname }} to complete the update"
+      ntfy:
+        url: "http://laydia.teqcloud.net"
+        msg: "Reboot required on {{ inventory_hostname }} to complete the update"
+        topic: "updates"
+        attrs:
+          tags: [ warning ]
+          priority: 3
       when: reboot_required.stat.exists
