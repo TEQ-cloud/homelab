@@ -1,4 +1,4 @@
-- hosts: deb
+- hosts: debian
 
   become: yes
   tasks:
