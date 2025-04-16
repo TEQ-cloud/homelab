@@ -43,6 +43,8 @@ services:
       SEMAPHORE_LDAP_MAPPING_DN: 'dn'
       SEMAPHORE_LDAP_MAPPING_CN: 'cn'
       TZ: UTC+1
+    volumes:
+      - /data/ansible/:/data/ansible/
     depends_on:
       - mysql
     secrets:
