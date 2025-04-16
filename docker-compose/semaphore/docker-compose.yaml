@@ -45,6 +45,7 @@ services:
       TZ: UTC+1
     volumes:
       - /data/ansible/:/data/ansible/
+      - /etc/ansible/ansible.cfg:/etc/ansible/ansible.cfg:ro
     depends_on:
       - mysql
     secrets:
