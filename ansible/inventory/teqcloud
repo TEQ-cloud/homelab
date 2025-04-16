@@ -16,6 +16,3 @@ donald.teqcloud.net
 kwik.teqcloud.net
 kwek.teqcloud.net
 kwak.teqcloud.net
-
-[deb:vars]
-ANSIBLE_ACTION_PLUGINS="/data/ansible/plugins/action"
