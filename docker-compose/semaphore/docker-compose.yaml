@@ -46,7 +46,7 @@ services:
     volumes:
       - /data/ansible/:/data/ansible/
       - /etc/ansible/ansible.cfg:/etc/ansible/ansible.cfg:ro
-      - /home/laydia/.ansible/:/home/semaphore/.ansible/
+      - /home/laydia/.ansible/plugins/action/ntfy/ntfy.py:/home/semaphore/.ansible/plugins/action/ntfy/ntfy.py:ro
     depends_on:
       - mysql
     secrets:

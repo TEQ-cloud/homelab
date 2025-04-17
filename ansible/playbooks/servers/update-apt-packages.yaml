@@ -7,6 +7,7 @@
       apt:
         upgrade: yes
         update_cache: yes
+      register: updated
 
     - name: check if system reboot is required
       become: true
@@ -14,7 +15,7 @@
         path: /var/run/reboot-required
       register: reboot_required
 
-    - name: Send ntfy message
+    - name: Send ntfy message [reboot required]
       ntfy:
         url: "http://laydia.teqcloud.net"
         msg: "Reboot required on {{ inventory_hostname }} to complete the update"
@@ -22,4 +23,18 @@
         attrs:
           tags: [ warning ]
           priority: 3
+          actions:
+            - action: view
+              label: "Schedule Reboot"
+              url: "https://vc.teqcloud.net/ui/"
       when: reboot_required.stat.exists
+
+    - name: Send ntfy message [succes]
+      ntfy:
+        url: "http://laydia.teqcloud.net"
+        msg: "Update {{ inventory_hostname }} is completed succesfully"
+        topic: "updates"
+        attrs:
+          tags: [ warning ]
+          priority: 3
+      when: updated.stat.exist and not reboot_required.stat.exists
