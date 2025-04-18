@@ -1,13 +1,9 @@
 - name: Update all apt packages
   hosts: debian
+  gather_facts: yes
 
   become: yes
   tasks:
-    - name: Gather facts
-      ansible.builtin.setup:
-      ignore_unreachable: false
-      register: gathered_facts
-
     - name: upgrade apt packages
       become: true
       apt:
@@ -63,4 +59,4 @@
         attrs:
           tags: [ exclamation ]
           priority: 5
-      when: gathered_facts is ansible.builtin.unreachable
+      when: ansible_facts is ansible.builtin.unreachable
