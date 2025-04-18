@@ -49,13 +49,3 @@
           tags: [ exclamation ]
           priority: 5
       when: result is failed
-
-    - name: Send ntfy message [unreachable]
-      ntfy:
-        url: "http://laydia.teqcloud.net"
-        msg: "Connection to {{ inventory_hostname }} failed. Host might be unreachable or credentials are wrong."
-        topic: "updates"
-        attrs:
-          tags: [ exclamation ]
-          priority: 5
-      when: is ansible.builtin.unreachable
