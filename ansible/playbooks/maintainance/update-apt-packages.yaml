@@ -7,7 +7,7 @@
       apt:
         upgrade: yes
         update_cache: yes
-      register: updated
+      register: result
 
     - name: check if system reboot is required
       become: true
@@ -35,6 +35,16 @@
         msg: "Update {{ inventory_hostname }} is completed succesfully"
         topic: "updates"
         attrs:
-          tags: [ warning ]
+          tags: [ white_check_mark ]
           priority: 3
-      when: updated.stat.exist and not reboot_required.stat.exists
+      when: result is succes and not reboot_required.stat.exists
+
+    - name: Send ntfy message [failed]
+      ntfy:
+        url: "http://laydia.teqcloud.net"
+        msg: "Update on {{ inventory_hostname }} has failed"
+        topic: "updates"
+        attrs:
+          tags: [ exclamation ]
+          priority: 5
+      when: result is failed
