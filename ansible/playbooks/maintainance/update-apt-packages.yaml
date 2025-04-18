@@ -58,4 +58,4 @@
         attrs:
           tags: [ exclamation ]
           priority: 5
-      when: is not ansible.builtin.reachable
+      when: is ansible.builtin.reachable false
