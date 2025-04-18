@@ -5,7 +5,7 @@
   tasks:
     - name: Gather facts
       ansible.builtin.setup:
-      ignore_unreachable: true
+      ignore_unreachable: false
       register: gathered_facts
 
     - name: upgrade apt packages
