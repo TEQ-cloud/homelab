@@ -1,5 +1,5 @@
-- hosts: debian
-  register: connection_status
+- name: Update all apt packages
+  hosts: debian
 
   become: yes
   tasks:
@@ -38,7 +38,7 @@
         attrs:
           tags: [ white_check_mark ]
           priority: 3
-      when: result is succes and not reboot_required.stat.exists
+      when: not result is failed and not reboot_required.stat.exists
 
     - name: Send ntfy message [failed]
       ntfy:
@@ -58,4 +58,4 @@
         attrs:
           tags: [ exclamation ]
           priority: 5
-      when: connection_status is unreachable
+      when: is not ansible.builtin.reachable
