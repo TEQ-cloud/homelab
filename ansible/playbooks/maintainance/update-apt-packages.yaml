@@ -59,4 +59,5 @@
         attrs:
           tags: [ exclamation ]
           priority: 5
+      ignore_unreachable: yes
       when: ansible_facts is ansible.builtin.unreachable
