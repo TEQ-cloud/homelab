@@ -4,60 +4,63 @@
 
   become: yes
   tasks:
-    - name: upgrade apt packages
-      become: true
-      apt:
-        upgrade: yes
-        update_cache: yes
-      register: result
+    - name: perform tasks
+      block:
+        - name: upgrade apt packages
+          become: true
+          apt:
+            upgrade: yes
+            update_cache: yes
+          register: result
 
-    - name: check if system reboot is required
-      become: true
-      stat:
-        path: /var/run/reboot-required
-      register: reboot_required
+        - name: check if system reboot is required
+          become: true
+          stat:
+            path: /var/run/reboot-required
+          register: reboot_required
 
-    - name: Send ntfy message [reboot required]
-      ntfy:
-        url: "http://laydia.teqcloud.net"
-        msg: "Reboot required on {{ inventory_hostname }} to complete the update"
-        topic: "updates"
-        attrs:
-          tags: [ warning ]
-          priority: 3
-          actions:
-            - action: view
-              label: "Schedule Reboot"
-              url: "https://vc.teqcloud.net/ui/"
-      when: reboot_required.stat.exists
+        - name: Send ntfy message [reboot required]
+          ntfy:
+            url: "http://laydia.teqcloud.net"
+            msg: "Reboot required on {{ inventory_hostname }} to complete the update"
+            topic: "updates"
+            attrs:
+              tags: [ warning ]
+              priority: 3
+              actions:
+                - action: view
+                  label: "Schedule Reboot"
+                  url: "https://vc.teqcloud.net/ui/"
+          when: reboot_required.stat.exists
 
-    - name: Send ntfy message [succes]
-      ntfy:
-        url: "http://laydia.teqcloud.net"
-        msg: "Update {{ inventory_hostname }} is completed succesfully"
-        topic: "updates"
-        attrs:
-          tags: [ white_check_mark ]
-          priority: 3
-      when: not result is failed and not reboot_required.stat.exists
+        - name: Send ntfy message [succes]
+          ntfy:
+            url: "http://laydia.teqcloud.net"
+            msg: "Update {{ inventory_hostname }} is completed succesfully"
+            topic: "updates"
+            attrs:
+              tags: [ white_check_mark ]
+              priority: 3
+          when: not result is failed and not reboot_required.stat.exists
 
-    - name: Send ntfy message [failed]
-      ntfy:
-        url: "http://laydia.teqcloud.net"
-        msg: "Update on {{ inventory_hostname }} has failed"
-        topic: "updates"
-        attrs:
-          tags: [ exclamation ]
-          priority: 5
-      when: result is failed
+        - name: Send ntfy message [failed]
+          ntfy:
+            url: "http://laydia.teqcloud.net"
+            msg: "Update on {{ inventory_hostname }} has failed"
+            topic: "updates"
+            attrs:
+              tags: [ exclamation ]
+              priority: 5
+          when: result is failed
 
-    - name: Send ntfy message [unreachable]
-      ntfy:
-        url: "http://laydia.teqcloud.net"
-        msg: "Connection to {{ inventory_hostname }} failed. Host might be unreachable or credentials are wrong."
-        topic: "updates"
-        attrs:
-          tags: [ exclamation ]
-          priority: 5
-      ignore_unreachable: yes
-      when: ansible_facts is ansible.builtin.unreachable
+      always:
+        - name: Send ntfy message [unreachable]
+          ntfy:
+            url: "http://laydia.teqcloud.net"
+            msg: "Connection to {{ inventory_hostname }} failed. Host might be unreachable or credentials are wrong."
+            topic: "updates"
+            attrs:
+              tags: [ exclamation ]
+              priority: 5
+          ignore_unreachable: yes
+          when: ansible_facts is not ansible.builtin.reachable
