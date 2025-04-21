@@ -1,21 +1,21 @@
 windows:
   hosts:
-    amenadiel.teqcloud.net:
-    lucifer.teqcloud.net:
-    veeam-bm.teqcloud.net:
-    veeam-bp01.teqcloud.net:
+    amenadiel:
+    lucifer:
+    veeam-bm:
+    veeam-bp01:
 
 debian:
   hosts:
-    laydia.teqcloud.net:
-    adyali.teqcloud.net:
-    nxcld01.teqcloud.net:
-    plxms01.teqcloud.net:
-    imch01.teqcloud.net:
+    laydia:
+    adyali:
+    nxcld01:
+    plxms01:
+    imch01:
 
 talos:
   hosts:
-    donald.teqcloud.net:
-    kwik.teqcloud.net:
-    kwek.teqcloud.net:
-    kwak.teqcloud.net:
+    donald:
+    kwik:
+    kwek:
+    kwak:

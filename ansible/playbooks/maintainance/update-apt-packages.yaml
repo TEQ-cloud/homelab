@@ -1,11 +1,15 @@
 - name: Update all apt packages
   hosts: debian
-  gather_facts: yes
-
+  gather_facts: false
   become: yes
   tasks:
-    - name: perform tasks
-      block:
+    - block:
+        - gather_facts:
+          ignore_unreachable: true
+          register: host_reachability
+        - fail:
+          when: host_reachability is unreachable
+
         - name: upgrade apt packages
           become: true
           apt:
@@ -53,7 +57,7 @@
               priority: 5
           when: result is failed
 
-      always:
+      rescue:
         - name: Send ntfy message [unreachable]
           ntfy:
             url: "http://laydia.teqcloud.net"
