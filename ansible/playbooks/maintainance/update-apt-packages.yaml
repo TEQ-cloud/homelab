@@ -1,5 +1,6 @@
 - hosts: debian
   gather_facts: false
+  become: yes
   tasks:
     - block:
         - gather_facts:
