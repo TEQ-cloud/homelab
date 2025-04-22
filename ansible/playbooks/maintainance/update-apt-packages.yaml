@@ -1,14 +1,12 @@
-- name: Update all apt packages
-  hosts: debian
+- hosts: debian
   gather_facts: false
-  become: yes
   tasks:
     - block:
         - gather_facts:
           ignore_unreachable: true
-          register: host_reachability
+          register: reachability
         - fail:
-          when: host_reachability is unreachable
+          when: reachability is unreachable
 
         - name: upgrade apt packages
           become: true
@@ -61,10 +59,8 @@
         - name: Send ntfy message [unreachable]
           ntfy:
             url: "http://laydia.teqcloud.net"
-            msg: "Connection to {{ inventory_hostname }} failed. Host might be unreachable or credentials are wrong."
+            msg: "Connection to {{ inventory_hostname }} failed. Host might be unreachable or credentials are incorrect."
             topic: "updates"
             attrs:
               tags: [ exclamation ]
               priority: 5
-          ignore_unreachable: yes
-          when: ansible_facts is not ansible.builtin.reachable
