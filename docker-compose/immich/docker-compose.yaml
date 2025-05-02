@@ -21,7 +21,7 @@ services:
       - ${UPLOAD_LOCATION}:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     env_file:
-      - .env
+      - stack.env
     ports:
       - '2283:2283'
     depends_on:
@@ -42,7 +42,7 @@ services:
     volumes:
       - model-cache:/cache
     env_file:
-      - .env
+      - stack.env
     restart: always
     healthcheck:
       disable: false
