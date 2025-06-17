@@ -2,8 +2,8 @@
 
 Homelab to simulate and play arround with all parts and stages of a production environment.
 
-A lot of techniques used in this homelab are documentend op my blog and LinkedIn.
-https://teqcloud.net
+A lot of techniques used in this homelab are documentend op my blog and LinkedIn.  
+https://teqcloud.net  
 https://www.linkedin.com/in/quinten-de-haard-2b4900333/
 
 ## Introduction
@@ -22,9 +22,9 @@ The main cluster is a VMware vSphere (ESXi) cluster consisting of two nodes, man
 
 My homelab concists of 2 Dell servers that serve as hypervisors and a disk shelf to expand my storage needs.
 
-Dell Poweredge R730xd
-Dell Poweredge R720xd
-Dell Powervault MD1200 
+Dell Poweredge R730xd  
+Dell Poweredge R720xd  
+Dell Powervault MD1200
 
 ## Installed Apps and Infrastructure
 
