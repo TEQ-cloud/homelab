@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.11
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      - --configFile=/traefik.yml
+    environment:
+      - CF_API_EMAIL_FILE=${CF_API_EMAIL}
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_dns_api_token
+    volumes:
+      - /data/docker-compose/traefik/traefik.yml:/traefik.yml:ro
+      - ./letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      traefik_macvlan:
+        ipv4_address: ${IPv4_ADDRESS}
+    ports:
+      - "80:80"
+      - "443:443"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dashboard.rule=Host(${TRAEFIK_DASHBOARD_HOST})
+      - traefik.http.routers.dashboard.entrypoints=websecure
+      - traefik.http.routers.dashboard.tls.certresolver=cloudflare
+      - traefik.http.routers.dashboard.service=api@internal
+      - traefik.http.routers.dashboard.middlewares=auth
+      - traefik.http.middlewares.auth.basicauth.users=admin:${TRAEFIK_DASHBOARD_HASH}
+
+    secrets:
+      - cf_dns_api_token
+
+networks:
+  traefik_macvlan:
+    external: true
+
+secrets:
+  cf_dns_api_token:
+    external: true
