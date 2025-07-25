@@ -3,6 +3,9 @@ version: '3.8'
 services:
   traefik:
     image: traefik:v2.11
+    deploy:
+      restart_policy:
+        condition: on-failure
     command:
       - --configFile=/traefik.yml
     environment:
@@ -37,7 +40,3 @@ networks:
 secrets:
   cf_dns_api_token:
     external: true
-
-deploy:
-  restart_policy:
-    condition: on-failure
