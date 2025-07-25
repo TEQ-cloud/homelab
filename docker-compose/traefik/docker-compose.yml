@@ -3,8 +3,6 @@ version: '3.8'
 services:
   traefik:
     image: traefik:v2.11
-    container_name: traefik
-    restart: unless-stopped
     command:
       - --configFile=/traefik.yml
     environment:
@@ -39,3 +37,7 @@ networks:
 secrets:
   cf_dns_api_token:
     external: true
+
+deploy:
+  restart_policy:
+    condition: on-failure
